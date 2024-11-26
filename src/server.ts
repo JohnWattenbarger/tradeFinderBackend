@@ -9,9 +9,17 @@ const fastify = Fastify({ logger: true });
 // Use the PORT environment variable, with a fallback to 3000 if it's not set
 const port = Number(process.env.PORT) || 3000;
 
+// fastify.register(cors, {
+//     origin: true,
+//     credentials: true,
+// });
+
+
+// Register the CORS plugin
 fastify.register(cors, {
-    origin: true,
-    credentials: true,
+    origin: '*',  // This allows all origins
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow these HTTP methods
+    allowedHeaders: ['Content-Type', 'Authorization'],  // Specify the allowed headers
 });
 
 fastify.post('/proxy', async (request, reply) => {
