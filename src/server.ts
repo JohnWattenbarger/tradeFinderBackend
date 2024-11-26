@@ -6,6 +6,9 @@ import { ProxyRequestBody } from './types';
 
 const fastify = Fastify({ logger: true });
 
+// Use the PORT environment variable, with a fallback to 3000 if it's not set
+const port = Number(process.env.PORT) || 3000;
+
 fastify.register(cors, {
     origin: true,
     credentials: true,
@@ -42,10 +45,11 @@ fastify.post('/proxy', async (request, reply) => {
     }
 });
 
-fastify.listen({ port: 3000 }, err => {
+// Documentation [here](https://fastify.dev/docs/latest/Reference/Server/#listentextresolver)
+fastify.listen({ port, host: '0.0.0.0' }, (err, address) => {
     if (err) {
         fastify.log.error(err);
         process.exit(1);
     }
-    console.log('Fastify server running on http://localhost:3000');
+    // console.log('Fastify server running on http://localhost:3000');
 });
