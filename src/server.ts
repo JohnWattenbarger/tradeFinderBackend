@@ -18,8 +18,19 @@ const port = Number(process.env.PORT) || 3000;
 // Register the CORS plugin
 fastify.register(cors, {
     origin: '*',  // This allows all origins
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Allow these HTTP methods
-    allowedHeaders: ['Content-Type', 'Authorization'],  // Specify the allowed headers
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], // OPTIONS is important for preflights
+    allowedHeaders: [
+        'Content-Type',
+        'Authorization',
+        'Cache-Control',
+        'If-None-Match',
+        'If-Modified-Since',
+        'Accept',
+        'Origin',
+        'X-Requested-With',
+        'Pragma',
+        'Expires'
+    ],
 });
 
 fastify.post('/proxy', async (request, reply) => {
